@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BitcoinController</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+
+    <string name="load_text">Touch to load</string>
+    <string name="load_error">Error getting data. Try again later.</string>
+    <string name="eur"> €  %s</string>
+</resources>
