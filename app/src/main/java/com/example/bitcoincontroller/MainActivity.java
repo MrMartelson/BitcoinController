@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             String xbt = jParEur.getString(0).trim();
             String xbtEur = trimmer(xbt);
             Log.i(TAG, "Extraída la información para cargarla");
-            eurText.setText(xbtEur + " " + R.string.eur);
+            eurText.setText(xbtEur + " €");
 
         } catch (Exception err) {
             eurText.setText(R.string.load_error);
