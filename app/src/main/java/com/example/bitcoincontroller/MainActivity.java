@@ -25,8 +25,8 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String XBTEUR_ENDPOINT = "https://api.kraken.com/0/public/Ticker?pair=XBTEUR";
-    private static final String XBTUSD_ENDPOINT = "https://api.kraken.com/0/public/Ticker?pair=XBTUSD";
+    private static final String XBT_ENDPOINT = "https://api.kraken.com/0/public/Ticker?pair=XBTEUR,XBTUSD";
+    TextView usdText = null;
     TextView eurText = null;
     private static final String TAG = "MainActivity";
 
@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
 
-        eurText = (TextView) findViewById(R.id.text_eur);
+        eurText = findViewById(R.id.text_eur);
+        usdText = findViewById(R.id.text_usd);
 
     }
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest eurRequest = new JsonObjectRequest(
-                Request.Method.GET, XBTEUR_ENDPOINT, null, new Response.Listener<JSONObject>() {
+                Request.Method.GET, XBT_ENDPOINT, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 jsonReader(response);
@@ -91,12 +92,20 @@ public class MainActivity extends AppCompatActivity {
     private void jsonReader(JSONObject response) {
         try {
             JSONObject jResult = response.getJSONObject("result");
-            JSONObject jPares = jResult.getJSONObject("XXBTZEUR");
-            JSONArray jParEur = jPares.getJSONArray("c");
-            String xbt = jParEur.getString(0).trim();
-            String xbtEur = trimmer(xbt);
+
+            JSONObject jParEur = jResult.getJSONObject("XXBTZEUR");
+            JSONArray jEur = jParEur.getJSONArray("c");
+            String xbtE = jEur.getString(0);
+            String xbtEur = trimmer(xbtE);
+
+            JSONObject jParUsd = jResult.getJSONObject("XXBTZUSD");
+            JSONArray jUsd = jParUsd.getJSONArray("c");
+            String xbtU = jUsd.getString(0);
+            String xbtUsd = trimmer(xbtU);
+
             Log.i(TAG, "Extraída la información para cargarla");
             eurText.setText(xbtEur + " €");
+            usdText.setText(xbtUsd + " $");
 
         } catch (Exception err) {
             eurText.setText(R.string.load_error);
